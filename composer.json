@@ -1,5 +1,5 @@
 {
-    "name": "oktawave/php-ocsclient",
+    "name": "mateusz-blaszczyk/php-ocsclient",
     "type": "library",
     "description": "PHP library to communicate with Oktawave OCS",
     "keywords": ["php-ocsclient", "ocs", "client", "oktawave", "storage"],
