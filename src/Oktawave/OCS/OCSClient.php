@@ -46,6 +46,7 @@ class Oktawave_OCS_OCSClient
     protected $authToken;
     protected $storageUrl;
     protected $useragent = 'osc-client';
+    protected $verbosity = false;
 
     /**
      * The array of request content types based on the specified response format
@@ -87,6 +88,42 @@ class Oktawave_OCS_OCSClient
     public function getStorageUrl()
     {
         return $this->storageUrl;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVerbosity()
+    {
+        return $this->verbosity;
+    }
+
+    /**
+     * @param bool $verbosity
+     * @return Oktawave_OCS_OCSClient
+     */
+    public function setVerbosity($verbosity)
+    {
+        $this->verbosity = $verbosity;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBucket()
+    {
+        return $this->bucket;
+    }
+
+    /**
+     * @param string $bucket
+     * @return Oktawave_OCS_OCSClient
+     */
+    public function setBucket($bucket)
+    {
+        $this->bucket = $bucket;
+        return $this;
     }
 
     /**
@@ -493,7 +530,7 @@ class Oktawave_OCS_OCSClient
             CURLOPT_SSL_VERIFYHOST => 2,
             CURLOPT_CAINFO => dirname(__FILE__) . '/ca-bundle.crt',
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_VERBOSE => true,
+            CURLOPT_VERBOSE => $this->isVerbosity(),
             CURLOPT_USERAGENT => $this->useragent,
             CURLOPT_FAILONERROR => true,
         ));
