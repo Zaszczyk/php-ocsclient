@@ -41,7 +41,7 @@ class Oktawave_OCS_OCSClient
      */
     const DEFAULT_DELIMITER = '/';
 
-    const TOKEN_VALIDITY_PERIOD = '24 hours';
+    const TOKEN_VALIDITY_PERIOD = '23 hours';
 
     protected $url;
     protected $bucket;
@@ -511,7 +511,7 @@ class Oktawave_OCS_OCSClient
     protected function isTokenExpired()
     {
         $now = new \DateTime();
-        return ($now > $this->authTokenExpirationDate->modify('-1 minute'));
+        return ($now > $this->authTokenExpirationDate);
     }
 
     /**
