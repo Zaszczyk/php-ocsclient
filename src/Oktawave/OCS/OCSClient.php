@@ -165,6 +165,7 @@ class Oktawave_OCS_OCSClient
 
     protected function reauthenticate()
     {
+        $this->authToken = null;
         $this->authenticate($this->username, $this->password);
     }
 
@@ -534,7 +535,7 @@ class Oktawave_OCS_OCSClient
     {
         $curl = curl_init();
 
-        if ($this->authToken) {
+        if ($this->authToken && !$this->isTokenExpired()) {
             $headers = array(
                 'X-Auth-Token' => $this->authToken,
             );
@@ -630,7 +631,7 @@ class Oktawave_OCS_OCSClient
 
         if (0 === $errorCode) {
             return array('body' => $body, 'httpCode' => $httpCode, 'headers' => $responseHeaders);
-        } elseif (401 == $errorCode && $this->recursionCounter < 10) {
+        } elseif (22 == $errorCode && 401 == $httpCode && $this->recursionCounter < 10) {
             $this->recursionCounter++;
             $this->reauthenticate();
             $results = $this->createCurl($endpoint, $method, $file, $customHeaders, $includeHeader, $noBody, $format);
