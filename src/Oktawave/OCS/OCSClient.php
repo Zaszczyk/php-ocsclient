@@ -41,7 +41,7 @@ class Oktawave_OCS_OCSClient
      */
     const DEFAULT_DELIMITER = '/';
 
-    const TOKEN_VALIDITY_PERIOD = '12 hours';
+    const TOKEN_VALIDITY_PERIOD = '20 hours';
 
     protected $url;
     protected $bucket;
@@ -631,7 +631,7 @@ class Oktawave_OCS_OCSClient
 
         if (0 === $errorCode) {
             return array('body' => $body, 'httpCode' => $httpCode, 'headers' => $responseHeaders);
-        } elseif (22 == $errorCode && 401 == $httpCode && $this->recursionCounter < 10) {
+        } elseif (22 == $errorCode && in_array($httpCode, [401, 503]) && $this->recursionCounter < 10) {
             $this->recursionCounter++;
             $this->reauthenticate();
             $results = $this->createCurl($endpoint, $method, $file, $customHeaders, $includeHeader, $noBody, $format);
