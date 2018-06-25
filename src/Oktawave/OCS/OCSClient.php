@@ -320,6 +320,33 @@ class Oktawave_OCS_OCSClient
     }
 
     /**
+     * Uploads object for given path
+     *
+     * @param string $path Full path to file
+     * @param string $dstPath Destination path
+     * @param boolean $checkIntegrity Check MD5 sum of file?
+     *
+     * @return string URL Full URL of created object
+     */
+    public function createObjectFromBlob($blob, $dstPath, $checkIntegrity = true)
+    {
+        $this->isAuthenticated();
+
+        $fsize = fstat($blob)['size'];
+
+        $files = array('file' => $blob, 'filesize' => $fsize, 'etag' => null);
+
+        if ($checkIntegrity) {
+            $files['etag'] = 'md5($blob)';
+        }
+
+        $ret = $this->createCurl($this->bucket . '/' . $dstPath, self::METHOD_PUT, $files);
+
+        return $this->storageUrl . '/' . $this->bucket . '/' . $dstPath;
+    }
+
+
+    /**
      * Creates empy directory (pseudo-directory) for given path
      *
      * @param string $dstPath Destination path
