@@ -320,7 +320,7 @@ class Oktawave_OCS_OCSClient
     }
 
     /**
-     * Uploads object for given path
+     * Uploads object from blob, checking integrity is disabled
      *
      * @param string $path Full path to file
      * @param string $dstPath Destination path
@@ -328,17 +328,13 @@ class Oktawave_OCS_OCSClient
      *
      * @return string URL Full URL of created object
      */
-    public function createObjectFromBlob($blob, $dstPath, $checkIntegrity = true)
+    public function createObjectFromBlob($blob, $dstPath)
     {
         $this->isAuthenticated();
 
-        $fsize = fstat($blob)['size'];
+        $fstat = fstat($blob);
 
-        $files = array('file' => $blob, 'filesize' => $fsize, 'etag' => null);
-
-        if ($checkIntegrity) {
-            $files['etag'] = 'md5($blob)';
-        }
+        $files = array('file' => $blob, 'filesize' => $fstat['size'], 'etag' => null);
 
         $ret = $this->createCurl($this->bucket . '/' . $dstPath, self::METHOD_PUT, $files);
 
