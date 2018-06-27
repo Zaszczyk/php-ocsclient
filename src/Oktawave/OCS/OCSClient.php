@@ -503,7 +503,7 @@ class Oktawave_OCS_OCSClient
     protected function isAuthenticated()
     {
         if (!$this->authToken) {
-            throw new Oktawave_OCS_Exception_NotAuthenticatedException('Authentication required. Use authenticate method first!');
+            $this->reauthenticate();
         }
 
         if ($this->isTokenExpired()) {
