@@ -619,6 +619,8 @@ class Oktawave_OCS_OCSClient
 
         $errorCode = curl_errno($curl);
         $errorMessage = curl_error($curl);
+        $errorMessage .= 'Curl error_code: ' . $errorCode . '. Token in object-client: ' . mb_substr($this->authToken, 0, 22) .
+            '. $headers[X-Auth-Token]: ' . mb_substr($headers['X-Auth-Token'], 0, 22);
 
         curl_close($curl);
 
