@@ -563,6 +563,7 @@ class Oktawave_OCS_OCSClient
             CURLOPT_VERBOSE => $this->isVerbosity(),
             CURLOPT_USERAGENT => $this->useragent,
             CURLOPT_FAILONERROR => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1
         ));
 
         if ($includeHeader) {
